@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	app          = kingpin.New("ip-range-provider", "A command-line tool to fetch IP address ranges from well known providers.")
+	app          = kingpin.New("cidrlist", "A command-line tool to fetch IP address ranges from well known providers.")
 	getIp        = app.Command("get", "Get IP from provider (cloudflare, akamai, aws, gcp, and google).")
 	providerName = getIp.Arg("provider", "The name of the provider.").Required().String()
 )

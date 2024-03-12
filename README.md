@@ -13,7 +13,7 @@ Currently list following providers:
 # Usage
 
 ```bash
-usage: ip-range-provider <command> [<args> ...]
+usage: cidrlist <command> [<args> ...]
 
 A command-line tool to fetch IP address ranges from well known providers.
 
