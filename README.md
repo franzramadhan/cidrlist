@@ -2,15 +2,15 @@
 
 Simple cli to get CIDR list from well known providers
 
-Currently list following providers:
+## List IPs from following providers:
 
-- akamai
+- akamai (origin IP acl)
 - aws
 - cloudflare
 - gcp
 - google
 
-# Usage
+## Usage
 
 ```bash
 usage: cidrlist <command> [<args> ...]
