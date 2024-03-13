@@ -18,7 +18,6 @@ var (
 
 func main() {
 	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
-	// Register user
 	case getIp.FullCommand():
 		switch name := *providerName; name {
 		case "akamai":
