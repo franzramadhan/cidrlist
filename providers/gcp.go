@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"slices"
-	"strings"
 )
 
 /*
@@ -30,7 +29,7 @@ type Gcp struct {
 	} `json:"prefixes"`
 }
 
-func GcpIps() (string, error) {
+func GcpIps() ([]string, error) {
 	var err error
 	var client = &http.Client{}
 	var data *Gcp
@@ -38,17 +37,17 @@ func GcpIps() (string, error) {
 
 	request, err := http.NewRequest(http.MethodGet, URL_GCP, nil)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	response, err := client.Do(request)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	defer response.Body.Close()
 
 	err = json.NewDecoder(response.Body).Decode(&data)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	for _, prefix := range data.Prefixes {
@@ -62,7 +61,6 @@ func GcpIps() (string, error) {
 
 	slices.Sort(prefixes)
 	prefixes = slices.Compact(prefixes)
-	results := strings.Join(prefixes, ",")
 
-	return results, nil
+	return prefixes, nil
 }

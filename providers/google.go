@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"slices"
-	"strings"
 )
 
 /*
@@ -29,7 +28,7 @@ type Google struct {
 	} `json:"prefixes"`
 }
 
-func GoogleIps() (string, error) {
+func GoogleIps() ([]string, error) {
 	var err error
 	var client = &http.Client{}
 	var data *Google
@@ -37,17 +36,17 @@ func GoogleIps() (string, error) {
 
 	request, err := http.NewRequest(http.MethodGet, URL_GOOGLE, nil)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	response, err := client.Do(request)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	defer response.Body.Close()
 
 	err = json.NewDecoder(response.Body).Decode(&data)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	for _, prefix := range data.Prefixes {
@@ -61,7 +60,6 @@ func GoogleIps() (string, error) {
 
 	slices.Sort(prefixes)
 	prefixes = slices.Compact(prefixes)
-	results := strings.Join(prefixes, ",")
 
-	return results, nil
+	return prefixes, nil
 }

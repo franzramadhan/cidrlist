@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"slices"
-	"strings"
 )
 
 /*
@@ -42,7 +41,7 @@ type AwsInputs struct {
 	// Service string
 }
 
-func (a *AwsInputs) AwsIps() (string, error) {
+func (a *AwsInputs) AwsIps() ([]string, error) {
 	var err error
 	var client = &http.Client{}
 	var data *Aws
@@ -50,17 +49,17 @@ func (a *AwsInputs) AwsIps() (string, error) {
 
 	request, err := http.NewRequest(http.MethodGet, URL_AWS, nil)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	response, err := client.Do(request)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	defer response.Body.Close()
 
 	err = json.NewDecoder(response.Body).Decode(&data)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	switch ipType := a.IpType; ipType {
@@ -84,7 +83,6 @@ func (a *AwsInputs) AwsIps() (string, error) {
 
 	slices.Sort(prefixes)
 	prefixes = slices.Compact(prefixes)
-	results := strings.Join(prefixes, ",")
 
-	return results, nil
+	return prefixes, nil
 }

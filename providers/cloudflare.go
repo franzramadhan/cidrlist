@@ -3,7 +3,6 @@ package providers
 import (
 	"encoding/json"
 	"net/http"
-	"strings"
 )
 
 /*
@@ -28,27 +27,27 @@ type Cloudflare struct {
 	Messages []interface{} `json:"messages"`
 }
 
-func CloudflareIps() (string, error) {
+func CloudflareIps() ([]string, error) {
 	var err error
 	var client = &http.Client{}
 	var data *Cloudflare
 
 	request, err := http.NewRequest(http.MethodGet, URL_CLOUDFLARE, nil)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	response, err := client.Do(request)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	defer response.Body.Close()
 
 	err = json.NewDecoder(response.Body).Decode(&data)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	results := strings.Join(append(data.Result.Ipv4Cidrs, data.Result.Ipv6Cidrs...), ",")
+	results := append(data.Result.Ipv4Cidrs, data.Result.Ipv6Cidrs...)
 
 	return results, nil
 }

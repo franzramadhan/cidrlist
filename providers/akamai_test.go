@@ -2,7 +2,6 @@ package providers
 
 import (
 	"net"
-	"strings"
 	"testing"
 )
 
@@ -13,7 +12,7 @@ func TestAkamaiIps(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	for _, prefix := range strings.Split(ips, ",") {
+	for _, prefix := range ips {
 		ipv4Addr, _, err := net.ParseCIDR(prefix)
 		if err != nil {
 			t.Errorf("Akamai IP Address is invalid %s", ipv4Addr)
