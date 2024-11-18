@@ -1,9 +1,5 @@
 package providers
 
-import (
-	"strings"
-)
-
 /*
 Origin IP Access Control List (Origin IP ACL) offers some protection for your origin server by restricting traffic to ​Akamai​-controlled IP addresses.
 ​Akamai​ maintains a small and stable list of IP addresses that you use in policy rules in your origin server's firewall.
@@ -12,6 +8,7 @@ CIDR is an IP addressing scheme that improves the allocation of IP addresses by 
 
 Reference: https://techdocs.akamai.com/origin-ip-acl/docs/welcome
 */
+
 var AkamaiCidrs = []string{
 	"23.32.0.0/11",
 	"23.192.0.0/11",
@@ -37,7 +34,6 @@ var AkamaiCidrs = []string{
 	"2405:9600::/32",
 }
 
-func AkamaiIps() (string, error) {
-	results := strings.Join(AkamaiCidrs, ",")
-	return results, nil
+func AkamaiIps() ([]string, error) {
+	return AkamaiCidrs, nil
 }
